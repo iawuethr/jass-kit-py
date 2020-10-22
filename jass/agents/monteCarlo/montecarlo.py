@@ -3,14 +3,14 @@
 # Created by Pascal Benz on 10/02/2020
 # https://www.baeldung.com/java-monte-carlo-tree-search
 
-from tree import Tree
+from jass.agents.monteCarlo.tree import Tree
 import time
 import copy
 import numpy as np
-from UCTMonte import UCTMonte
+from jass.agents.monteCarlo.UCTMonte import UCTMonte
 from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH
 from jass.game.game_sim import GameSim
-from node_montecarlo import Node
+from jass.agents.monteCarlo.node_montecarlo import Node
 
 # "Board" corresponds "Trick"
 # "opponent" corresponds "maximizingPlayer"
@@ -102,7 +102,7 @@ class MonteCarloTreeSearch:
         # choosing the most promising nodes as path. 
         # Before the first expansion, the promising node will be the rootnode itself.
         while (len(node.getChildArray()) is not 0): 
-            node = UCTMonte.findBestNodeWithUCT(node) 
+            node = UCTMonte.findBestNodeWithUCT(node)
         return node
 
     # This method recommends a leaf node which should be expanded further in the expansion phase:

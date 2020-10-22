@@ -6,9 +6,9 @@ import logging
 import copy
 import array
 # https://www.journaldev.com/33185/python-add-to-array
-from montecarlo_incomplete import MonteCarloTreeSearchIncomplete
+from jass.agents.monteCarlo.montecarlo_incomplete import MonteCarloTreeSearchIncomplete
 import numpy as np
-from node_montecarlo import Node
+from jass.agents.monteCarlo.node_montecarlo import Node
 from jass.agents.agent import Agent
 from jass.game.const import PUSH, MAX_TRUMP, card_strings, color_masks, MAX_PLAYER, next_player, partner_player
 from jass.game.game_observation import GameObservation
@@ -19,8 +19,6 @@ from jass.game.rule_schieber import RuleSchieber
 # AI-modules
 # Necessary to use the ML-model
 import pandas as pd
-from sklearn import model_selection
-from sklearn.linear_model import LogisticRegression
 import pickle
 
 
