@@ -8,7 +8,7 @@ import logging
 import copy
 import numpy as np
 import math
-from node_montecarlo import Node
+from jass.agents.monteCarlo.node_montecarlo import Node
 
 
 # https://www.baeldung.com/java-monte-carlo-tree-search
