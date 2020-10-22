@@ -8,9 +8,9 @@ import sys
 import numpy as np
 import copy
 import array
+sys.path.insert(0,"C:/Studium_HSLU/HS_2020/DLFORGAMES/JASSKITGROUP/jass-kit-py")
 from node_montecarlo import Node
 # Dadurch werden im Programmrun nicht die dateien im 
-sys.path.insert(0,"C:/Studium_HSLU/HS_2020/DLFORGAMES/JASSKIT/JASSKIT")
 from agent_most_colour import AgentMostColour
 from agent_highest_value import AgentHighestValue
 from agent_highest_value_StratDeal1 import AgentHighestValueStratDeal1
