@@ -18,7 +18,8 @@ def main():
     arena = Arena(nr_games_to_play=1)
     player = AgentRandomSchieber()
     # my_player = AgentByNetwork('http://localhost:5000/random')
-    my_player = AgentByNetwork('https://lg3bsb3a96.execute-api.eu-central-1.amazonaws.com/dev/random')
+    # my_player = AgentByNetwork('https://lg3bsb3a96.execute-api.eu-central-1.amazonaws.com/dev/random')
+    my_player = AgentByNetwork('http://127.0.0.1:5000/random')
 
     arena.set_players(my_player, player, my_player, player)
     print('Playing {} games'.format(arena.nr_games_to_play))

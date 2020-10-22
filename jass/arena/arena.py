@@ -167,10 +167,13 @@ class Arena:
         self._player_ids[SOUTH] = south_id
         self._player_ids[WEST] = west_id
 
+    # In the very first Game, the dealer ist he first player
+    # (see row 230) and the second player chooses trump.
     def play_game(self, dealer: int) -> None:
         """
         Play a complete match (36 cards).
         """
+        # print('Hoi')
         # init match
         self._game.init_from_cards(dealer=dealer, hands=self._dealing_card_strategy.deal_cards(
             game_nr=self._nr_games_played,
@@ -195,6 +198,8 @@ class Arena:
         for cards in range(36):
             obs = self._game.get_observation()
             card_action = self._players[self._game.state.player].action_play_card(obs)
+            # print('{} returned card2'.format(card_action))
+            # print('{} valid cards2'.format(self._game.rule.get_valid_cards_from_obs(obs)))
             if self._check_moves_validity:
                 assert card_action in np.flatnonzero(self._game.rule.get_valid_cards_from_obs(obs)), \
                     'Invalid card played!'
@@ -225,6 +230,8 @@ class Arena:
             self._file_generator.__enter__()
         dealer = NORTH
         for game_id in range(self._nr_games_to_play):
+            print('played games: {}'.format(self.nr_games_played))
+            
             self.play_game(dealer=dealer)
             if self.nr_games_played % self._print_every_x_games == 0:
                 points_to_write = int(self.nr_games_played / self._nr_games_to_play * 40)
