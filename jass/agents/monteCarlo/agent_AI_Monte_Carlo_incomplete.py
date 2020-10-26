@@ -89,13 +89,19 @@ class AgentMonteCarloAIIncomplete (Agent):
     # nextPlayerPosition: The position of the player in the tick
 
     def action_play_card(self, obs: GameObservation) -> int:
+        try:
+            return self.action_play_card_intern(obs)
+        except Exception as e:
+            print(str(e))
+            raise
 
+    def action_play_card_intern(self, obs: GameObservation) -> int:
         monteCarloSimulation = MonteCarloTreeSearchIncomplete()
         # We prepare the mock-game for the Monte-Carlo-Simulation
         simulatedGamePre = GameSim(self._rule)
         simulatedGame = GameSim(self._rule)
 
-        # We initialize the Game by the state. The state-information is transferred 
+        # We initialize the Game by the state. The state-information is transferred
         # Basically after every card playing the state has to be updated.
         # Otherwise there would not be a correct shuffling.
         # to the player in arena_play.py
@@ -104,25 +110,25 @@ class AgentMonteCarloAIIncomplete (Agent):
         # The list to save the winner nodes.
         winnerNodesList = []
 
-        # For-loop. Creating Multiple Monte-Carlo-Trees based on 
+        # For-loop. Creating Multiple Monte-Carlo-Trees based on
         # reshuffling randomly the cards in the hands of the non-playing-players.
         # --> this is then the random guess (determinism) the playing player makes about
         # the hands of the other players.
 
-        for q in range(0,2):   
+        for q in range(0,2):
             # When the action_play_card we play a card. Now we determine,
             # # which player we are (North, South, West, East)
             playerNumber = obs.player
             simulatedGame=self.deterministRandomShuffle(simulatedGamePre)
             # print('Nr. of tricks in Game: {}'.format(simulatedGame._state.nr_tricks))
             # print('simulated Game Pre cards: {})'.format(simulatedGame._state.current_trick))
-            # 
+            #
             # # Starting from the current game state we use the simulatedGame-Object to finish the Game
             # # the simulatedGame-Object returns the card to play which was able to end the game with the highest point Nr.
-            finishedNode=monteCarloSimulation.findNextMove(simulatedGame, playerNumber) 
+            finishedNode=monteCarloSimulation.findNextMove(simulatedGame, playerNumber)
             winnerNodesList.append(finishedNode)
             print('visits on a winner node: {}'.format(finishedNode.stat.getVisitCount()))
-            
+
             # print('finished Game After cards: {})'.format(finishedGame._state.current_trick))
 
         # Here we determine the winner node with the most visits:
@@ -130,21 +136,21 @@ class AgentMonteCarloAIIncomplete (Agent):
         finishedGame=bestNode.getState().getGame()
         print('most visited node: {}'.format(bestNode.stat.getVisitCount()))
 
-        # if the next move/card to play is still in the same trick, which means that, 
+        # if the next move/card to play is still in the same trick, which means that,
         # nr_tricks in the game remain unchanged when the next move is played.
          # then we play the last new entry in the trick of the finishedGame
-        if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :   
+        if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :
             print('Same trick card: {}'.format(finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]))
             return finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]
         # if we are in a new trick (--> nr of tricks of finishedGame > simulatedGame)
         # then we play the first card in the trick.
-        else: 
+        else:
             # We return the last card of the trick, which has just finished:
             # print('tricks nr simulatedGame: {}'.format(simulatedGame._state.nr_tricks))
             # print('tricks nr finishedGame: {}'.format(finishedGame._state.nr_tricks))
             # print('tricks cards: {}'.format(finishedGame._state.tricks))
             # print('New trick card: {}'.format(finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]))
-            return finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]       
+            return finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]
 
     def deterministRandomShuffle(self, simPre: GameSim) -> GameSim:
         shuffleGameSim = copy.deepcopy(simPre)
