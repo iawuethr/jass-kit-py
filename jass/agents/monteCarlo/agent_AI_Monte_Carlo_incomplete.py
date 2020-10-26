@@ -67,7 +67,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         if obs.forehand == -1:
             # if forehand is not yet set, we are the forehand player and can select trump or push
             # trained model with push-option True/False
-            loaded_model = pickle.load(open(os.path.join(os.path.dirname(__file__), 'finalized_model.sav'), 'rb'))
+            loaded_model = pickle.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'finalized_model.sav'), 'rb'))
             trump = loaded_model.predict(predictFrameX)
             print('trump forehand is: {}'.format(trump[0]))
             # transform trump into integer-value
@@ -75,7 +75,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         # if not push or forehand, select a trump
         # This means: using a model, where the PUSH-option does not exist, 
         # since this option really does not exist for the player to which the trump-decision is pushed.
-        loaded_model = pickle.load(open(os.path.join(os.path.dirname(__file__), 'finalized_model_pushed.sav'), 'rb'))
+        loaded_model = pickle.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'finalized_model_pushed.sav'), 'rb'))
         trump = loaded_model.predict(predictFrameX)
         print('trump backhand is: {}'.format(trump[0]))
         return trumpValues[trump[0]]
