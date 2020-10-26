@@ -24,7 +24,7 @@ class MonteCarloTreeSearchIncomplete:
     # action_play_card in agent_most_colour_Monte_Carlo.py
     def findNextMove(self, game: GameSim, playerNo: int) -> np.array: 
         # define an end time which will act as a terminating condition
-        end = time.time()*1000.0 + 5000
+        end = time.time()*1000.0 + 1000
  
         tree = Tree()
         # The root of the tree is the first GameSim?

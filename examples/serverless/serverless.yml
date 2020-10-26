@@ -49,11 +49,15 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
-#package:
+package:
 #  include:
+#    - finalized_model.sav
+#    - finalized_model_pushed.sav
 #    - include-me.py
 #    - include-me-dir/**
-#  exclude:
+  exclude:
+    - node_modules/**
+    - venv/**
 #    - exclude-me.py
 #    - exclude-me-dir/**
 
