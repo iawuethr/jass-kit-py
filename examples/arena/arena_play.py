@@ -21,7 +21,6 @@ def main():
 
     # setup the arena
     arena = Arena(nr_games_to_play=100, save_filename='arena_games')
-    stateObject=arena._game.state
 
     player = AgentRandomSchieber()
     my_player = AgentMonteCarloAIIncomplete()
