@@ -2,7 +2,7 @@ click==7.1.2
 Cython==0.29.21
 Flask==1.1.2
 itsdangerous==1.1.0
-git+https://github.com/iawuethr/jass-kit-py.git@3d49cf99e195bb442fa3d892b44c45a69e832c5d#egg=jass_kit
+git+https://github.com/iawuethr/jass-kit-py.git@ce41169dcc569b54bc19e697092d4a2aa5c2e5d4#egg=jass_kit
 Jinja2==2.11.2
 joblib==0.17.0
 MarkupSafe==1.1.1
