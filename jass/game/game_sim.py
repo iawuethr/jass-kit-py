@@ -31,7 +31,7 @@ class GameSim:
 
     def init_from_cards(self, hands: np.array, dealer: int):
         self._state.dealer = dealer
-        self._state.player = next_player[dealer]
+        self._state.player = next_player.index(dealer)
         self._state.trump = -1
         self._state.forehand = -1
         self._state.hands = hands.copy()
@@ -79,7 +79,7 @@ class GameSim:
             # action of the partner of the forehand player
             self._state.trump = action
             self._state.declared_trump = self._state.player
-            self._state.player = next_player[self._state.dealer]
+            self._state.player = next_player.index(self._state.dealer)
             self._state.trick_first_player[0] = self._state.player
         else:
             raise ValueError('Unexpected value {} for forehand in action_trump'.format(self._state.forehand))
@@ -113,7 +113,7 @@ class GameSim:
                 self._state.trick_first_player[self._state.nr_tricks] = self._state.player
             # trick is not yet finished
             self._state.nr_cards_in_trick += 1
-            self._state.player = next_player[self._state.player]
+            self._state.player = next_player.index(self._state.player)
         else:
             # finish current trick
             self._end_trick()

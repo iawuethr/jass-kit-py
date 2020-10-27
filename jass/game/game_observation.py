@@ -206,9 +206,9 @@ class GameObservation:
 
         if obs.trump != -1:
             if obs.forehand == 1:
-                obs.declared_trump = next_player[obs.dealer]
+                obs.declared_trump = next_player.index(obs.dealer)
             else:
-                obs.declared_trump = partner_player[next_player[obs.dealer]]
+                obs.declared_trump = partner_player[next_player.index(obs.dealer)]
 
         tricks = data['tricks']
         for i, trick in enumerate(tricks):

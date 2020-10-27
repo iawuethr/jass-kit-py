@@ -26,9 +26,6 @@ def main():
     player = AgentRandomSchieber()
     my_player = AgentMonteCarloAIIncomplete()
 
-        # We provide the player with the gamestate
-    my_player.setStateObject(stateObject)
-
     # arena.set_players(my_player, player, my_player, player)
     # game 1: The first player is the dealer, the second chooses the trump
     arena.set_players(player, my_player, player, my_player)

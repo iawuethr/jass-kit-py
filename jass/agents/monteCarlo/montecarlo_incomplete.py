@@ -24,7 +24,9 @@ class MonteCarloTreeSearchIncomplete:
     # action_play_card in agent_most_colour_Monte_Carlo.py
     def findNextMove(self, game: GameSim, playerNo: int) -> np.array: 
         # define an end time which will act as a terminating condition
-        end = time.time()*1000.0 + 1000
+        end = time.time()*1000.0 +100.0
+
+        # print('player number in find next Move: {}'.format(playerNo))
  
         tree = Tree()
         # The root of the tree is the first GameSim?
@@ -35,9 +37,10 @@ class MonteCarloTreeSearchIncomplete:
         tree.setRoot(rootNode)
         rootNode.getState().setGame(game)
         rootNode.childNodes = []
+
+        # print('root node player: {}'.format(rootNode.getState().getGame()._state.player))
         # Here we add the the child nodes, which are the valid cards of the next player:
         # print('next move tick: {})'.format(rootNode.getState().getGame()._state.current_trick))
-
         while (time.time()*1000.0 < end): 
 
             # ***************Exploitation*******************
@@ -59,6 +62,7 @@ class MonteCarloTreeSearchIncomplete:
                 # ****************Expansion**********************
                 # child nodes are attached to the most promising leaves/unexplored inner nodes
                 # the very first promising node at the start will be the root node itself.
+                # print('expand node')
                 self.expandNode(promisingNode)
             
             # print('promising node trick2: {})'.format(promisingNode.getState().getGame()._state.current_trick))
@@ -77,6 +81,7 @@ class MonteCarloTreeSearchIncomplete:
             # by randomly choosing played cards.
 
             #***************** bis hierhin Ok **************************************************************
+            # print("exploration node player: {}".format(nodeToExplore.getState().getGame().state.player))
             playoutResult = self.simulateRandomPlayout(nodeToExplore,playerNo)
             # We are playing the results back to the promising nodes and the root-nodes
             self.backPropogation(nodeToExplore, playoutResult, playerNo)
@@ -122,11 +127,14 @@ class MonteCarloTreeSearchIncomplete:
             # the winner of the current trick is the first player of the next trick in the currentGame
             player = node.getState().currentGame._state.trick_winner[node.getState().currentGame._state.nr_tricks]
         # if trick is not yet finished
-        else: player = next_player[node.getState().currentGame._state.player] 
+        else: player = next_player.index(node.getState().currentGame._state.player)
+        #player = next_player[node.getState().currentGame._state.player] 
+        # print('expand player node: {}'.format(player))
 
         for c in possibleStates: 
                    newNode = Node()
                    newNode.stat = c
+                   # print("new node player:  {}".format(newNode.stat.getGame().state.player))
                    newNode.setParent(node)
                    # next player, in case of Jass it depends on the State of the 
                    # game.
@@ -139,9 +147,17 @@ class MonteCarloTreeSearchIncomplete:
         tempState = tempNode.getState() 
         gameStatus = tempState.getGame().is_done()
 
+        # print('player in status {}'.format(tempState.getGame().state.player))
+
         # As long as the nine ticks of the game are not finished, play the game
         while not gameStatus : 
+            # print('random play in while')
             tempState.randomPlay()
+            # print("gameStatus {}".format(gameStatus))
+            # print("status hands 1 {}".format(np.flatnonzero(tempState.getGame().state.hands[0])))
+            # print("status hands 2 {}".format(np.flatnonzero(tempState.getGame().state.hands[1])))
+            # print("status hands 3 {}".format(np.flatnonzero(tempState.getGame().state.hands[2])))
+            # print("status hands 4 {}".format(np.flatnonzero(tempState.getGame().state.hands[3])))
             gameStatus = tempState.getGame().is_done()
 
         # We return the number of points, whicht the team of the player gets in the game, after the game is done.
