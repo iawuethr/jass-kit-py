@@ -8,7 +8,7 @@ import array
 # https://www.journaldev.com/33185/python-add-to-array
 from monteCarlo.montecarlo_incomplete import MonteCarloTreeSearchIncomplete
 import numpy as np
-from jassKitMC.monteCarlo.node_montecarlo import Node
+from monteCarlo.node_montecarlo import Node
 from jass.agents.agent import Agent
 from jass.game.const import PUSH, MAX_TRUMP, card_strings, color_masks, MAX_PLAYER, next_player, partner_player
 from jass.game.game_observation import GameObservation
