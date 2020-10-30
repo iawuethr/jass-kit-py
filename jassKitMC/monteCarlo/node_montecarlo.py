@@ -5,23 +5,22 @@
 import logging
 import copy
 import numpy as np
-from jass.agents.monteCarlo.node_state_montecarlo import NodeState
-from jass.agents.monteCarlo.node_state_montecarlo_Info import NodeStateInfo
+from jassKitMC.monteCarlo.node_state_montecarlo import NodeState
 import random
 # https://www.baeldung.com/java-monte-carlo-tree-search
 
-class NodeInfo:
+class Node:
 
     def __init__(self):
-        self.stat = NodeStateInfo()
+        self.stat = NodeState()
         self.childNodes = []
-        self.parentNode:  NodeInfo
+        self.parentNode:  Node
 
 
-    def setParent(self, node: 'NodeInfo'):
+    def setParent(self, node: 'Node'):
         self.parentNode = node
 
-    def getParent(self) -> 'NodeInfo':
+    def getParent(self) -> 'Node':
         return self.parentNode    
 
     def getState(self) -> NodeState():
@@ -30,11 +29,11 @@ class NodeInfo:
     def getChildArray(self) -> []:
         return self.childNodes
     
-    def getRandomChildNode(self) -> 'NodeInfo':
+    def getRandomChildNode(self) -> 'Node':
         return random.choice(self.childNodes)
 
-    def getChildWithMaxScore(self) -> 'NodeInfo':
-        maxScoreNode = NodeInfo()
+    def getChildWithMaxScore(self) -> 'Node':
+        maxScoreNode = Node()
         maxScoreNode.stat.winScore = 0
 
         for c in self.childNodes:

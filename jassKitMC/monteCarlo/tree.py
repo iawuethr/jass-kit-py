@@ -7,7 +7,7 @@ import sys
 import logging
 import copy
 import numpy as np
-from jass.agents.monteCarlo.node_montecarlo import Node
+from jassKitMC.monteCarlo.node_montecarlo import Node
 
 
 # https://www.baeldung.com/java-monte-carlo-tree-search
