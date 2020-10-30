@@ -167,11 +167,11 @@ class AgentMonteCarloAIIncomplete (Agent):
 
         cardsTodistribute=copy.deepcopy(card_array)
         currentPlayerHandsize= len(handPlayer)
-        nextPlayer= next_player.index(currentPlayer)
+        nextPlayer= next_player[currentPlayer]
 
         playerfirst=nextPlayer
-        playersecond=next_player.index(playerfirst)
-        playerthird=next_player.index(playersecond)
+        playersecond=next_player[playerfirst]
+        playerthird=next_player[playersecond]
 
         cardfirst=[]
         cardsecond=[]

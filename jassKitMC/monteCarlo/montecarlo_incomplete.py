@@ -127,7 +127,7 @@ class MonteCarloTreeSearchIncomplete:
             # the winner of the current trick is the first player of the next trick in the currentGame
             player = node.getState().currentGame._state.trick_winner[node.getState().currentGame._state.nr_tricks]
         # if trick is not yet finished
-        else: player = next_player.index(node.getState().currentGame._state.player)
+        else: player = next_player[node.getState().currentGame._state.player]
         #player = next_player[node.getState().currentGame._state.player] 
         # print('expand player node: {}'.format(player))
 
