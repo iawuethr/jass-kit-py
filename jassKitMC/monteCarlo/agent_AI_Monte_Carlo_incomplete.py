@@ -16,6 +16,7 @@ from jass.game.game_state import GameState
 from jass.game.game_sim import GameSim
 from jass.game.rule_schieber import RuleSchieber
 from jass.arena.arena import Arena
+import traceback
 import os 
 
 # AI-modules
@@ -41,27 +42,38 @@ class AgentMonteCarloAIIncomplete (Agent):
         self._rng = np.random.default_rng()
 
     def action_trump(self, obs: GameObservation) -> int:
+        print("Dermining trump...")
+        try:
+            trump = self.action_trump_intern(obs)
+            print("trump determined as '" + str(trump) + "'")
+            return trump
+        except Exception:
+            traceback.print_exc()
+            raise
 
-        trumpValues = {'DIAMONDS': 0, 'HEARTS': 1,'SPADES': 2, 'CLUBS': 3, 'OBE_ABE': 4, 'UNE_UFE': 5}
-    
+    def action_trump_intern(self, obs: GameObservation) -> int:
+
+        trumpValues = {'DIAMONDS': 0, 'HEARTS': 1, 'SPADES': 2, 'CLUBS': 3, 'OBE_ABE': 4, 'UNE_UFE': 5}
+
         self._logger.info('Trump request')
         # The trained ML needs a 2D-array with categories and cards.
         # first we create the Data-Frame
-        columns= card_strings
-        columns=np.append(columns,'FH')
+        columns = card_strings
+        columns = np.append(columns, 'FH')
         print("category of columns {}".format(columns))
         # Es gibt die Kategories und die Kartenwerte
 
-        dataIn= copy.deepcopy(obs.hand)
+        dataIn = copy.deepcopy(obs.hand)
 
         if obs.forehand == -1:
-            dataIn=np.append(dataIn,1)
-        else: dataIn=np.append(dataIn,0)
+            dataIn = np.append(dataIn, 1)
+        else:
+            dataIn = np.append(dataIn, 0)
 
         # wir transponieren hier das dataIn
-        dataIn=dataIn.reshape(1,37)
+        dataIn = dataIn.reshape(1, 37)
 
-        predictFrameX = pd.DataFrame(data= dataIn, index = [0], columns=columns, dtype = int)
+        predictFrameX = pd.DataFrame(data=dataIn, index=[0], columns=columns, dtype=int)
         # The key values are in: card_strings
         print("predict Array {}".format(predictFrameX.head()))
         print("shape PredictX {}".format(predictFrameX.shape))
@@ -78,7 +90,7 @@ class AgentMonteCarloAIIncomplete (Agent):
             # transform trump into integer-value
             return trumpValues[trump[0]]
         # if not push or forehand, select a trump
-        # This means: using a model, where the PUSH-option does not exist, 
+        # This means: using a model, where the PUSH-option does not exist,
         # since this option really does not exist for the player to which the trump-decision is pushed.
         loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
         trump = loaded_model.predict(predictFrameX)
@@ -89,6 +101,16 @@ class AgentMonteCarloAIIncomplete (Agent):
     # nextPlayerPosition: The position of the player in the tick
 
     def action_play_card(self, obs: GameObservation) -> int:
+        print("Determining card to play...")
+        try:
+            card =  self.action_play_card_intern(obs)
+            print("Card dermined as '" + str(card) + "'")
+            return card
+        except Exception:
+            traceback.print_exc()
+            raise
+
+    def action_play_card_intern(self, obs: GameObservation) -> int:
 
         card_array=[]
         for n in range(36):
@@ -99,7 +121,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         simulatedGamePre = GameSim(self._rule)
         simulatedGame = GameSim(self._rule)
 
-        # We initialize the Game by the state. The state-information is transferred 
+        # We initialize the Game by the state. The state-information is transferred
         # Basically after every card playing the state has to be updated.
         # Otherwise there would not be a correct shuffling.
         # to the player in arena_play.py
@@ -131,19 +153,19 @@ class AgentMonteCarloAIIncomplete (Agent):
 
         # print('remaining Cards to shuffle: {} '.format(card_array))
         # print('len current trick: {} '.format(len(currentTrick)))
-        
+
 
         for c in handPlayer:
             handsIn[currentPlayer,c] = 1
-        
+
         # print('handPlayer Zero: {} '.format(handsIn))
-        
+
         playerTypes = [0,1,2,3]
         # print('playerTypes before: {} '.format(playerTypes))
         playerTypes.remove(currentPlayer)
         # print('playerTypes: {} '.format(playerTypes))
 
-        cardsTodistribute=copy.deepcopy(card_array)   
+        cardsTodistribute=copy.deepcopy(card_array)
         currentPlayerHandsize= len(handPlayer)
         nextPlayer= next_player.index(currentPlayer)
 
@@ -176,7 +198,7 @@ class AgentMonteCarloAIIncomplete (Agent):
             cardfirst= newarr[0]
             cardsecond= newarr[1]
             cardthird= newarr[2]
-            
+
         # print('cardfirst: {} '.format(cardfirst))
         # print('cardsecond: {} '.format(cardsecond))
         # print('cardthird: {} '.format(cardthird))
@@ -187,14 +209,14 @@ class AgentMonteCarloAIIncomplete (Agent):
 
         for c in cardfirst:
             handsIn[playerfirst,c] = 1
-        
+
         for c in cardsecond:
             handsIn[playersecond,c] = 1
 
         for c in cardthird:
             handsIn[playerthird,c] = 1
 
-        
+
         # Before shuffle hands
         # print("before shuffle hand 1 {}".format(np.flatnonzero(handsIn[0])))
         # print("before shuffle hand 2 {}".format(np.flatnonzero(handsIn[1])))
@@ -219,12 +241,12 @@ class AgentMonteCarloAIIncomplete (Agent):
         # The list to save the winner nodes.
         winnerNodesList = []
 
-        # For-loop. Creating Multiple Monte-Carlo-Trees based on 
+        # For-loop. Creating Multiple Monte-Carlo-Trees based on
         # reshuffling randomly the cards in the hands of the non-playing-players.
         # --> this is then the random guess (determinism) the playing player makes about
         # the hands of the other players.
 
-        for q in range(0,2):   
+        for q in range(0,2):
             # When the action_play_card we play a card. Now we determine,
             # # which player we are (North, South, West, East)
             playerNumber = obs.player
@@ -232,19 +254,19 @@ class AgentMonteCarloAIIncomplete (Agent):
             simulatedGame=self.deterministRandomShuffle(simulatedGamePre)
             # print('Nr. of tricks in Game: {}'.format(simulatedGame._state.nr_tricks))
             # print('simulated Game Pre cards: {})'.format(simulatedGame._state.current_trick))
-            # 
+            #
             # # Starting from the current game state we use the simulatedGame-Object to finish the Game
             # # the simulatedGame-Object returns the card to play which was able to end the game with the highest point Nr.
-            
+
             # print("after shuffle hand 1 {}".format(np.flatnonzero(simulatedGame.state.hands[0])))
             # print("after shuffle hand 2 {}".format(np.flatnonzero(simulatedGame.state.hands[1])))
             # print("after shuffle hand 3 {}".format(np.flatnonzero(simulatedGame.state.hands[2])))
             # print("after shuffle hand 4 {}".format(np.flatnonzero(simulatedGame.state.hands[3])))
-            
-            finishedNode=monteCarloSimulation.findNextMove(simulatedGame, playerNumber) 
+
+            finishedNode=monteCarloSimulation.findNextMove(simulatedGame, playerNumber)
             winnerNodesList.append(finishedNode)
             # print('visits on a winner node: {}'.format(finishedNode.stat.getVisitCount()))
-            
+
             # print('finished Game After cards: {})'.format(finishedGame._state.current_trick))
 
         # Here we determine the winner node with the most visits:
@@ -252,21 +274,21 @@ class AgentMonteCarloAIIncomplete (Agent):
         finishedGame=bestNode.getState().getGame()
         # print('most visited node: {}'.format(bestNode.stat.getVisitCount()))
 
-        # if the next move/card to play is still in the same trick, which means that, 
+        # if the next move/card to play is still in the same trick, which means that,
         # nr_tricks in the game remain unchanged when the next move is played.
          # then we play the last new entry in the trick of the finishedGame
-        if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :   
+        if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :
             # print('Same trick card: {}'.format(finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]))
             return finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]
         # if we are in a new trick (--> nr of tricks of finishedGame > simulatedGame)
         # then we play the first card in the trick.
-        else: 
+        else:
             # We return the last card of the trick, which has just finished:
             # print('tricks nr simulatedGame: {}'.format(simulatedGame._state.nr_tricks))
             # print('tricks nr finishedGame: {}'.format(finishedGame._state.nr_tricks))
             # print('tricks cards: {}'.format(finishedGame._state.tricks))
             # print('New trick card: {}'.format(finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]))
-            return finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]       
+            return finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]
 
     def deterministRandomShuffle(self, simPre: GameSim) -> GameSim:
         shuffleGameSim = copy.deepcopy(simPre)
