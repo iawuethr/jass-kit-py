@@ -123,7 +123,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         # print('old tricks second: {} '.format(oldTricks[1,:]))
 
         if obs.nr_tricks > 0:
-            print('here we are')
+            # print('here we are')
             card_array=list(set(card_array) - set(handPlayer)-set(currentTrick))
             for m in range(obs.nr_tricks+1):
                 card_array= list(set(card_array) - set(oldTricks[m,:]))
