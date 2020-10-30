@@ -3,14 +3,14 @@
 # Created by Pascal Benz on 10/02/2020
 # https://www.baeldung.com/java-monte-carlo-tree-search
 
-from jass.agents.monteCarlo.tree import Tree
+from jassKitMC.monteCarlo.tree import Tree
 import time
 import copy
 import numpy as np
-from jass.agents.monteCarlo.UCTMonte import UCTMonte
+from monteCarlo.UCTMonte import UCTMonte
 from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH
 from jass.game.game_sim import GameSim
-from jass.agents.monteCarlo.node_montecarlo import Node
+from jassKitMC.monteCarlo.node_montecarlo import Node
 
 # "Board" corresponds "Trick"
 # "opponent" corresponds "maximizingPlayer"

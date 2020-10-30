@@ -130,3 +130,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# npm packages
+node_modules/
+
+# serverless files
+.serverless/
