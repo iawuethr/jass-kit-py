@@ -5,7 +5,7 @@
 import logging
 import copy
 import numpy as np
-from jassKitMC.monteCarlo.node_state_montecarlo import NodeState
+from monteCarlo.node_state_montecarlo import NodeState
 import random
 # https://www.baeldung.com/java-monte-carlo-tree-search
 

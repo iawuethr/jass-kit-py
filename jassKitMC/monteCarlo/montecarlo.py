@@ -7,7 +7,7 @@ from jassKitMC.monteCarlo.tree import Tree
 import time
 import copy
 import numpy as np
-from jassKitMC.monteCarlo.UCTMonte import UCTMonte
+from monteCarlo.UCTMonte import UCTMonte
 from jass.game.const import next_player, PUSH, partner_player, NORTH, SOUTH
 from jass.game.game_sim import GameSim
 from jassKitMC.monteCarlo.node_montecarlo import Node

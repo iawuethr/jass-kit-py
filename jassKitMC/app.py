@@ -4,7 +4,7 @@
 #
 import logging
 
-from jassKitMC.monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
+from monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.service.player_service_app import PlayerServiceApp
 

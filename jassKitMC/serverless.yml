@@ -50,7 +50,8 @@ provider:
 
 # you can add packaging information here
 package:
-#  include:
+  include:
+    - monteCarlo/**
 #    - finalized_model.sav
 #    - finalized_model_pushed.sav
 #    - include-me.py

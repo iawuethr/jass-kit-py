@@ -7,11 +7,11 @@ import logging
 import sys
 import numpy as np
 import array
-from jassKitMC.monteCarlo.node_montecarlo import Node
+from monteCarlo.node_montecarlo import Node
 # Dadurch werden im Programmrun nicht die dateien im
 from jass.arena.arena import Arena
 from jass.agents.agent_random_schieber import AgentRandomSchieber
-from jassKitMC.monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
+from monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
 
 
 def main():

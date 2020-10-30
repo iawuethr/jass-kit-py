@@ -6,7 +6,7 @@ import logging
 import copy
 import array
 # https://www.journaldev.com/33185/python-add-to-array
-from jassKitMC.monteCarlo.montecarlo_incomplete import MonteCarloTreeSearchIncomplete
+from monteCarlo.montecarlo_incomplete import MonteCarloTreeSearchIncomplete
 import numpy as np
 from jassKitMC.monteCarlo.node_montecarlo import Node
 from jass.agents.agent import Agent
