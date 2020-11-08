@@ -10,9 +10,8 @@ from jass.game.game_observation import GameObservation
 
 class GameObsActionLogEntry:
     """
-    Write logs containing the match observation for a single player and the action. The action could either be
+    Write logs containing the game observation for a single player and the action. The action could either be
     a trump action or a play card action (or combined).
-
     Date and player_id information is added so that entries could be filtered by player.
     """
     def __init__(self, obs: GameObservation, action: int, date: datetime, player_id: int):
@@ -48,7 +47,7 @@ class GameObsActionLogEntry:
         Returns:
             GameObsActionLogEntry
         """
-        return GameObsActionLogEntry(obs = GameObservation.from_json(data['obs']),
+        return GameObsActionLogEntry(obs=GameObservation.from_json(data['obs']),
                                      action=int(data['action']),
                                      date=datetime.strptime(data['date'], DATE_FORMAT),
                                      player_id=int(data['player_id']))

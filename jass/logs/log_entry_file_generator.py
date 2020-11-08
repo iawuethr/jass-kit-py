@@ -12,18 +12,14 @@ class LogEntryFileGenerator:
     Create a file of log entries with each entry in a separate line of the file. Files are split to contain
     no more than the indicated max_entries lines. Entries are first collected into a buffer and (optionally) shuffled
     before writing.
-
     The entries are the dict that have be generated using the appropriate serializer for the classes.
-
     The class should be used as a context manager within "with" in python.
-
     """
     EXTENSION = '.txt'
 
-    def __init__(self, basename: str, max_entries: int, max_buffer: int=10000, shuffle=True):
+    def __init__(self, basename: str, max_entries: int, max_buffer: int = 10000, shuffle: bool = True):
         """
         Initialize the generator.
-
         Args:
             basename: basename of the generated files, this should include the whole file path
             max_entries: maximal entries per file
