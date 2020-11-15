@@ -5,6 +5,8 @@
 import logging
 import copy
 import array
+import math
+import random
 # https://www.journaldev.com/33185/python-add-to-array
 from monteCarlo.montecarlo_incomplete import MonteCarloTreeSearchIncomplete
 import numpy as np
@@ -16,6 +18,8 @@ from jass.game.game_state import GameState
 from jass.game.game_sim import GameSim
 from jass.game.rule_schieber import RuleSchieber
 from jass.arena.arena import Arena
+import tensorflow as tf
+from tensorflow import keras
 import traceback
 import os 
 
@@ -42,7 +46,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         self._rng = np.random.default_rng()
 
     def action_trump(self, obs: GameObservation) -> int:
-        print("Dermining trump...")
+        print("Determining trump...")
         try:
             trump = self.action_trump_intern(obs)
             print("trump determined as '" + str(trump) + "'")
@@ -79,23 +83,40 @@ class AgentMonteCarloAIIncomplete (Agent):
         print("shape PredictX {}".format(predictFrameX.shape))
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
+        dir_path2= dir_path + '\model_ml'
 
         if obs.forehand == -1:
             print('directory path: {}'.format(dir_path))
+            print('directory path: {}'.format(dir_path2))
             # if forehand is not yet set, we are the forehand player and can select trump or push
             # trained model with push-option True/False
-            loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model.sav'), 'rb'))
+
+            # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model.sav'), 'rb'))
+            loaded_model = keras.models.load_model(dir_path2)
+
+            # Let's check:
+            # np.testing.assert_allclose(model.predict(test_input), reconstructed_model.predict(test_input))
             trump = loaded_model.predict(predictFrameX)
-            print('trump forehand is: {}'.format(trump[0]))
-            # transform trump into integer-value
-            return trumpValues[trump[0]]
+            # print('trump forehand is: {}'.format(np.argmax(trump[0])))
+
+            # If the hot-encoded value is 6 then return 10 for push.
+            if np.argmax(trump[0]) == 6:
+                return 10
+
+            # return trumpValues[trump[0]]
+            return np.argmax(trump[0])
         # if not push or forehand, select a trump
         # This means: using a model, where the PUSH-option does not exist,
         # since this option really does not exist for the player to which the trump-decision is pushed.
-        loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
+        # Noch pushed und nicht-pushed unterscheiden und implementieren für ml-modell!
+        dir_path2= dir_path + '\model_ml_back'
+        loaded_model = keras.models.load_model(dir_path2)
+        # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
+
         trump = loaded_model.predict(predictFrameX)
-        print('trump backhand is: {}'.format(trump[0]))
-        return trumpValues[trump[0]]
+        print('trump backhand is: {}'.format(np.argmax(trump[0])))
+        # return trumpValues[trump[0]]
+        return np.argmax(trump[0])
 
     # nextPlayerNr: The number of the player in the game (NORTH, SOUTH, WEST, EAST)
     # nextPlayerPosition: The position of the player in the tick
@@ -104,6 +125,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         print("Determining card to play...")
         try:
             card =  self.action_play_card_intern(obs)
+            # print('hand of player: {} '.format(np.flatnonzero(obs.hand)))
             print("Card dermined as '" + str(card) + "'")
             return card
         except Exception:
@@ -246,7 +268,11 @@ class AgentMonteCarloAIIncomplete (Agent):
         # --> this is then the random guess (determinism) the playing player makes about
         # the hands of the other players.
 
+        # The number of trees should depend on the number of remaining cards.
+        remaining_cards = max(2,math.ceil((36 - simulatedGamePre._state.nr_played_cards)/8))
+
         for q in range(0,2):
+        # for q in range(0,remaining_cards):
             # When the action_play_card we play a card. Now we determine,
             # # which player we are (North, South, West, East)
             playerNumber = obs.player
@@ -274,20 +300,40 @@ class AgentMonteCarloAIIncomplete (Agent):
         finishedGame=bestNode.getState().getGame()
         # print('most visited node: {}'.format(bestNode.stat.getVisitCount()))
 
+
+        
+        
+        #     print('tricks simulated before wait: {}'.format(simulatedGame._state.nr_tricks))
+        #     print('tricks finished before wait: {}'.format(finishedGame._state.nr_tricks))
+        #     print('wait for update: {}'.format(abs(finishedGame._state.nr_tricks - simulatedGame._state.nr_tricks)))
+
         # if the next move/card to play is still in the same trick, which means that,
         # nr_tricks in the game remain unchanged when the next move is played.
-         # then we play the last new entry in the trick of the finishedGame
-        if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :
+        # then we play the last new entry in the trick of the finishedGame
+        # print('simulated Nr Tricks: {}'.format(simulatedGame._state.nr_tricks))
+        # print('finished Nr Tricks: {}'.format(finishedGame._state.nr_tricks))
+        # if simulatedGame._state.nr_tricks == finishedGame._state.nr_tricks :
+        if (finishedGame._state.nr_tricks - simulatedGame._state.nr_tricks) != 1 :
+            print('tricks nr simulatedGame: {}'.format(simulatedGame._state.nr_tricks))
+            print('tricks nr finishedGame: {}'.format(finishedGame._state.nr_tricks))
             # print('Same trick card: {}'.format(finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]))
+            print('finished game: {}'.format(finishedGame._state.current_trick))
+
+            # for the case that for some reason the simulation does not update
+            if abs(finishedGame._state.nr_tricks - simulatedGame._state.nr_tricks)>1: 
+                print('random choice: {}'.format(handsIn[currentPlayer]))
+                return random.choice(np.flatnonzero(handsIn[currentPlayer]))
+                
             return finishedGame._state.current_trick[finishedGame._state.nr_cards_in_trick -1]
         # if we are in a new trick (--> nr of tricks of finishedGame > simulatedGame)
         # then we play the first card in the trick.
         else:
             # We return the last card of the trick, which has just finished:
-            # print('tricks nr simulatedGame: {}'.format(simulatedGame._state.nr_tricks))
-            # print('tricks nr finishedGame: {}'.format(finishedGame._state.nr_tricks))
+            print('tricks nr simulatedGame last: {}'.format(simulatedGame._state.nr_tricks))
+            print('tricks nr finishedGame last: {}'.format(finishedGame._state.nr_tricks))
             # print('tricks cards: {}'.format(finishedGame._state.tricks))
             # print('New trick card: {}'.format(finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]))
+            print('finished game last trick: {}'.format(finishedGame._state.tricks[simulatedGame._state.nr_tricks]))
             return finishedGame._state.tricks[simulatedGame._state.nr_tricks][3]
 
     def deterministRandomShuffle(self, simPre: GameSim) -> GameSim:
@@ -326,6 +372,7 @@ def extractWinnerNode(winnerNodesList: []) -> []:
             bestNode=winnerNodesList[l]
 
     return bestNode
+
     
 
     

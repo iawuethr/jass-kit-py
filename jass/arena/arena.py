@@ -183,15 +183,15 @@ class Arena:
         # ask first player
         trump_action = self._players[self._game.state.player].action_trump(self._game.get_observation())
         if trump_action < DIAMONDS or (trump_action > MAX_TRUMP and trump_action != PUSH):
-            self._logger.error('Illegal trump (' + str(trump_action) + ') selected')
-            raise RuntimeError('Illegal trump (' + str(trump_action) + ') selected')
+            self._logger.error('Illegal trump forehand (' + str(trump_action) + ') selected')
+            raise RuntimeError('Illegal trump forehand (' + str(trump_action) + ') selected')
         self._game.action_trump(trump_action)
         if trump_action == PUSH:
             # ask second player
             trump_action = self._players[self._game.state.player].action_trump(self._game.get_observation())
             if trump_action < DIAMONDS or trump_action > MAX_TRUMP:
-                self._logger.error('Illegal trump (' + str(trump_action) + ') selected')
-                raise RuntimeError('Illegal trump (' + str(trump_action) + ') selected')
+                self._logger.error('Illegal trump backhand (' + str(trump_action) + ') selected')
+                raise RuntimeError('Illegal trump backhand (' + str(trump_action) + ') selected')
             self._game.action_trump(trump_action)
 
         # play cards
