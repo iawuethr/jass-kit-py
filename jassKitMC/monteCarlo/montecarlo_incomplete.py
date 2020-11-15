@@ -25,7 +25,8 @@ class MonteCarloTreeSearchIncomplete:
     def findNextMove(self, game: GameSim, playerNo: int) -> np.array: 
         # define an end time which will act as a terminating condition
         # end = time.time()*1000.0 +1600.0
-        end = time.time()*1000.0 +60.0*(27-game.get_observation().nr_played_cards)+600
+        # end = time.time()*1000.0 +60.0*(27-game.get_observation().nr_played_cards)+600
+        end = time.time()*1000.0 +200.0*(36-game.get_observation().nr_played_cards)+10
 
         # print('player number in find next Move: {}'.format(playerNo))
  

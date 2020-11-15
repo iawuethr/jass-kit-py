@@ -268,10 +268,17 @@ class AgentMonteCarloAIIncomplete (Agent):
         # --> this is then the random guess (determinism) the playing player makes about
         # the hands of the other players.
 
-        # The number of trees should depend on the number of remaining cards.
-        remaining_cards = max(2,math.ceil((36 - simulatedGamePre._state.nr_played_cards)/8))
+        # The number of trees could depend on the number of remaining cards.
+        # The less cards the more trees with reduced exploration time.
+        # Since the lesser cards the less branches are there to explore.
+        trees = max(1,math.ceil(19/(36 - simulatedGamePre._state.nr_played_cards +1)))
+        # Here we determine the winner node with the most visits:
+        print("trees{}".format(trees))
 
-        for q in range(0,2):
+
+        # The less cards the more trees I can explore within the given time limit of 10s of the jass server.
+        for q in range(0,trees):
+        # for q in range(0,2):
         # for q in range(0,remaining_cards):
             # When the action_play_card we play a card. Now we determine,
             # # which player we are (North, South, West, East)
