@@ -29,6 +29,7 @@ def create_app():
     # add some players
     app.add_player('random', AgentRandomSchieber())
     app.add_player('monte-carlo', AgentMonteCarloAIIncomplete())
+    app.add_player('ai-player',AgentAIAI())
 
     return app
 

@@ -1,0 +1,28 @@
+Bei den Input-features füttere ich:
+
+Var 1: PlayedCards + PlayerCardsValid of current player
+Var 2: PlayedCards + PlayerCards of current player
+Var 3: PlayedCards + PlayerCardsValid of current player (these are with value 0.5 instead of value 1?)
+       --> clear improvement
+
+Var 4:  PlayerCardsValid of current player (these are with value 0.5 instead of value 1?)
+       Played Cards: 0.01
+       Unplayed Cards of Others: 0.3 or so.
+
+Var 5:  PlayerCardsValid of current player (these are with value 0.5 instead of value 1?)
+       Played Cards: 0.01
+       Trumps in valid hand? Keine verbesserung
+       Unplayed Cards of Others: 0.3 or so.
+
+*******************************************************************************************************
+
+Var 6: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+       Die Länge des Arrays kann also x*36 sein.
+       Accuracy: 0.6
+
+Var 7: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+       Die Länge des Arrays kann also x*36 sein.
+       Die aneinandergereihten Arrays sind nun nicht mehr alle mit Werten 0 oder 1
+       sondern mit Werten 0 bis 1 gefüllt, um zu differenzieren.
+       Accuracy: 0.55
+

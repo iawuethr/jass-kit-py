@@ -12,7 +12,7 @@ from monteCarlo.node_montecarlo import Node
 from jass.arena.arena import Arena
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
-
+from monteCarlo.agent_AI_AI import AgentAIAI
 
 def main():
 
@@ -20,10 +20,11 @@ def main():
     logging.basicConfig(level=logging.WARNING)
 
     # setup the arena
-    arena = Arena(nr_games_to_play=80, save_filename='arena_games')
+    arena = Arena(nr_games_to_play=10, save_filename='arena_games')
 
     player = AgentRandomSchieber()
     my_player = AgentMonteCarloAIIncomplete()
+    my_player = AgentAIAI()
 
     # arena.set_players(my_player, player, my_player, player)
     # game 1: The first player is the dealer, the second chooses the trump
