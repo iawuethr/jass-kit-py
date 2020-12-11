@@ -135,7 +135,7 @@ class AgentAIAI (Agent):
     def action_play_card_intern(self, obs: GameObservation) -> int:
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        dir_path2= dir_path + '\modelcardplay_ml'
+        dir_path2= os.path.join(dir_path, 'modelcardplay_ml')
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 
