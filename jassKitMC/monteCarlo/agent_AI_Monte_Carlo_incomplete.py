@@ -109,7 +109,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         # This means: using a model, where the PUSH-option does not exist,
         # since this option really does not exist for the player to which the trump-decision is pushed.
         # Noch pushed und nicht-pushed unterscheiden und implementieren für ml-modell!
-        dir_path2= dir_path + '\model_ml_back'
+        dir_path2= os.path.join(dir_path, 'model_ml_back')
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 

@@ -83,7 +83,7 @@ class AgentAIAI (Agent):
         print("shape PredictX {}".format(predictFrameX.shape))
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        dir_path2= dir_path + '\model_ml'
+        dir_path2= os.path.join(dir_path, 'model_ml')
 
         if obs.forehand == -1:
             print('directory path: {}'.format(dir_path))
