@@ -83,7 +83,7 @@ class AgentMonteCarloAIIncomplete (Agent):
         print("shape PredictX {}".format(predictFrameX.shape))
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        dir_path2= dir_path + '\model_ml'
+        dir_path2= os.path.join(dir_path, 'model_ml')
 
         if obs.forehand == -1:
             print('directory path: {}'.format(dir_path))
@@ -104,19 +104,19 @@ class AgentMonteCarloAIIncomplete (Agent):
                 return 10
 
             # return trumpValues[trump[0]]
-            return np.argmax(trump[0])
+            return int(np.argmax(trump[0]))
         # if not push or forehand, select a trump
         # This means: using a model, where the PUSH-option does not exist,
         # since this option really does not exist for the player to which the trump-decision is pushed.
         # Noch pushed und nicht-pushed unterscheiden und implementieren für ml-modell!
-        dir_path2= dir_path + '\model_ml_back'
+        dir_path2= os.path.join(dir_path, 'model_ml_back')
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 
         trump = loaded_model.predict(predictFrameX)
         print('trump backhand is: {}'.format(np.argmax(trump[0])))
         # return trumpValues[trump[0]]
-        return np.argmax(trump[0])
+        return int(np.argmax(trump[0]))
 
     # nextPlayerNr: The number of the player in the game (NORTH, SOUTH, WEST, EAST)
     # nextPlayerPosition: The position of the player in the tick
