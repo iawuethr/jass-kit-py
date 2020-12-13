@@ -6,6 +6,7 @@ import logging
 
 from monteCarlo.agent_AI_Monte_Carlo_incomplete import AgentMonteCarloAIIncomplete
 from monteCarlo.agent_AI_AI import AgentAIAI 
+from monteCarlo.agent_AI_AI2 import AgentAIAI2
 from jass.agents.agent_random_schieber import AgentRandomSchieber
 from jass.service.player_service_app import PlayerServiceApp
 
@@ -30,7 +31,8 @@ def create_app():
     # add some players
     app.add_player('random', AgentRandomSchieber())
     app.add_player('monte-carlo', AgentMonteCarloAIIncomplete())
-    app.add_player('ai-player',AgentAIAI())
+    app.add_player('ai-player',AgentAIAI2())
+
 
     return app
 

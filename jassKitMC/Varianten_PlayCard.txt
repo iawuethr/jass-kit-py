@@ -26,3 +26,70 @@ Var 7: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
        sondern mit Werten 0 bis 1 gefüllt, um zu differenzieren.
        Accuracy: 0.55
 
+Var 8: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+       Die Länge des Arrays kann also x*36 sein.
+       Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+
+
+Var 9: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+       Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+       - Bei den Trümpfen werden die Werte entsprechend ihrer Stärke abgestuft vom höchsten zum niedrigsten.
+
+Var 10: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+        Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+       - Karten mit einem Wert > 7 im Stich werden angegeben
+
+         Länge des Arrays wird so 8x36 statt 7x36
+
+
+Var 11: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+        Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+       - Karten mit einem Wert > 7  und < 11 im Stich werden angegeben
+
+
+         Länge des Arrays wird so 8x36 statt 7x36
+
+
+Var 12: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+        Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+
+         Dynamische Änderung der höchsten Werte be ObeAbe
+         --> Matrix erstellen, welche anhand der gespielten Karten erkennt,
+         welche Karten nun die höchsten bei UnteUfe oder ObeAbe sind.
+
+Var 13: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+        Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+
+         Dynamische Änderung der höchsten Werte be ObeAbe und UndeUfe.
+	 Die höchsten gespielten Karten werden in einem filter festgehalten und auf gespielte Karten angewandt.
+         Eine Matrix mit der höchsten ungespielten Karte wird auf die Handkarten angewandt.
+        
+
+
+- Werte von bereits gespielten Karten, deren Wert > als 7 und kleiner als 11 war?
+- Dynamische Änderung der höchsten Werte bei UnteUfe und ObeAbe? entsprechend der Werte welche schon gespielt wurden?
+
+
+Var 14: trump, trick, handcards etc. werden als 36-arrays aneinandergehängt.
+        Die Länge des Arrays kann also x*36 sein.
+
+       - Bei UnteUfe und ObeAbe werden, falls diese Trumpf sind, nun auch 6 und Ass angegeben.
+
+	 Korrigiert bei highest* und lowest*
+
+         Dynamische Änderung der höchsten Werte be ObeAbe und UndeUfe.
+	 Die höchsten gespielten Karten werden in einem filter festgehalten und auf gespielte Karten angewandt.
+         Eine Matrix mit der höchsten ungespielten Karte wird auf die Handkarten angewandt.
+
+
+
