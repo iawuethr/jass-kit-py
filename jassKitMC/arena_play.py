@@ -21,10 +21,10 @@ def main():
     logging.basicConfig(level=logging.WARNING)
 
     # setup the arena
-    arena = Arena(nr_games_to_play=10, save_filename='arena_games')
+    arena = Arena(nr_games_to_play=100, save_filename='arena_games')
 
-    # player = AgentRandomSchieber()
-    player = AgentMonteCarloAIIncomplete()
+    player = AgentRandomSchieber()
+    # player = AgentMonteCarloAIIncomplete()
     # my_player = AgentMonteCarloAIIncomplete()
     my_player = AgentAIAI2()
 

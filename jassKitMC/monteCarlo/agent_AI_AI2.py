@@ -83,6 +83,8 @@ class AgentAIAI2 (Agent):
         print("shape PredictX {}".format(predictFrameX.shape))
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
+        # print("__file__ {}".format(__file__))
+        # print("dir_path {}".format(dir_path))
         dir_path2= dir_path + '\model_ml'
 
         if obs.forehand == -1:
@@ -135,7 +137,9 @@ class AgentAIAI2 (Agent):
     def action_play_card_intern(self, obs: GameObservation) -> int:
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        dir_path2= dir_path + '\modelcardplay_ml2'
+        # dir_path2= dir_path + '\modelcardplay_ml'
+        # dir_path2= dir_path + '\modelcardplay_ml2'
+        dir_path2= dir_path + '\modelcardplay_m2600'
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 
