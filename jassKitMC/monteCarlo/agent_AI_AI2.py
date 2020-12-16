@@ -85,7 +85,8 @@ class AgentAIAI2 (Agent):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         # print("__file__ {}".format(__file__))
         # print("dir_path {}".format(dir_path))
-        dir_path2= dir_path + '\model_ml'
+
+        dir_path2= os.path.join(dir_path, 'model_ml')
 
         if obs.forehand == -1:
             print('directory path: {}'.format(dir_path))
@@ -111,7 +112,7 @@ class AgentAIAI2 (Agent):
         # This means: using a model, where the PUSH-option does not exist,
         # since this option really does not exist for the player to which the trump-decision is pushed.
         # Noch pushed und nicht-pushed unterscheiden und implementieren für ml-modell!
-        dir_path2= dir_path + '\model_ml_back'
+        dir_path2= os.path.join(dir_path, 'model_ml_back')
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 
@@ -139,7 +140,7 @@ class AgentAIAI2 (Agent):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         # dir_path2= dir_path + '\modelcardplay_ml'
         # dir_path2= dir_path + '\modelcardplay_ml2'
-        dir_path2= dir_path + '\modelcardplay_m2600'
+        dir_path2= os.path.join(dir_path, 'modelcardplay_m2600')
         loaded_model = keras.models.load_model(dir_path2)
         # loaded_model = pickle.load(open(os.path.join(dir_path, 'finalized_model_pushed.sav'), 'rb'))
 
