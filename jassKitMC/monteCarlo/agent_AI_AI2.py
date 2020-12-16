@@ -119,7 +119,7 @@ class AgentAIAI2 (Agent):
         trump = loaded_model.predict(predictFrameX)
         print('trump backhand is: {}'.format(np.argmax(trump[0])))
         # return trumpValues[trump[0]]
-        return np.argmax(trump[0])
+        return int(np.argmax(trump[0]))
 
     # nextPlayerNr: The number of the player in the game (NORTH, SOUTH, WEST, EAST)
     # nextPlayerPosition: The position of the player in the tick
